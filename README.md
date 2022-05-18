@@ -24,3 +24,19 @@ Install packages in `requirements.txt` using the following command.
 ```
 $ (venv) pip install -r requirements.txt
 ```
+
+I used [FastAPI](https://fastapi.tiangolo.com/) as the REST API framework and [Uvicorn](https://www.uvicorn.org/) as the ASGI server.
+
+3. (Optional) Set up CORS Middleware
+
+If you are calling the backend endpoints from a client running on localhost, add the address (e.g. http://localhost:4200) to `origins` in [main.py](./main.py)
+
+4. Run server
+
+Run the backend server using the following command. The default port is `8000`, but if it is already occupied, it will print another port it is using.
+
+```
+$ (venv) uvicorn main:app --reload
+```
+
+You can access the Swagger UI API docs at [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs) after running the server.
