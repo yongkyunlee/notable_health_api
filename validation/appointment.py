@@ -7,11 +7,14 @@ class AppointmentExistsValidation:
         self.appointments = appointments
         self.appointment_id = appointment_id
     
-    def _validate_appointment_exists(self):
+    def _validate_appointment_exists(self) -> None:
         for appointment in self.appointments:
-            if appointment.id == self.appointment_id:
+            if appointment['id'] == self.appointment_id:
                 return
         raise Exception(message=f"Appointment with id {self.appointment_id} does not exist")
+
+    def run(self) -> None:
+        self._validate_appointment_exists()
 
 class AppointmentInputValidation:
     def __init__(self, doctors, appointments, doctor_id: str, new_appointment: Appointment):

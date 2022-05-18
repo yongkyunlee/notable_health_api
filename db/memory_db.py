@@ -16,18 +16,18 @@ class MemoryDB:
         # assume input is valid
         appointments = self.appointments
         if doctor_id is not None:
-            appointments = list(filter(lambda x: x.doctor_id == doctor_id, appointments))
+            appointments = list(filter(lambda x: x['doctor_id'] == doctor_id, appointments))
         if date is not None:
-            appointments = list(filter(lambda x: x.date == date, appointments))
+            appointments = list(filter(lambda x: x['date'] == date, appointments))
         if time is not None:
-            appointments = list(filter(lambda x: x.time == time, appointments))
+            appointments = list(filter(lambda x: x['time'] == time, appointments))
         return appointments
 
     def create_appointment(self, doctor_id: str, new_appointment: Appointment):
         # assume input is valid
-        appointment_id = uuid.uuid4() # assume it is unique since it is uuid4
+        appointment_id = str(uuid.uuid4()) # assume it is unique since it is uuid4
         new_appointment = {
-            **new_appointment.to_dict(),
+            **new_appointment.dict(),
             'id': appointment_id,
             'doctor_id': doctor_id
         }
@@ -36,9 +36,9 @@ class MemoryDB:
 
     def delete_appointment(self, appointment_id):
         # return the appointment that is deleted
-        appointment = list(filter(lambda x: x.appointment_id == appointment_id, self.appointments))
+        appointment = list(filter(lambda x: x['id'] == appointment_id, self.appointments))
         if len(appointment) == 0:
             return None
         
-        self.appointments = list(filter(lambda x: x.appointment_id != appointment_id, self.appointments))
+        self.appointments = list(filter(lambda x: x['id'] != appointment_id, self.appointments))
         return appointment

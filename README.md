@@ -41,6 +41,40 @@ $ (venv) uvicorn main:app --reload
 
 You can access the Swagger UI API docs at [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs) after running the server.
 
+## Endpoints
+
+### GET /doctors
+
+Get the list of all doctors
+
+### GET /doctors/{doctor_id}/appointments/{date}
+
+Get a list of all appointments for a particular doctor and particular day
+
+- `date` must have format **YYYY-mm-dd** (e.g. 2022-05-17)
+
+### POST /doctors/{doctor_id}/appointments
+
+Create a new appointment for the doctor with input `doctor_id`.
+
+- POST body must be of format
+
+```
+{
+  "patient_first_name": "string",
+  "patient_last_name": "string",
+  "appointment_type": "New Patient",
+  "date": "string",
+  "time": "string"
+}
+```
+
+where `date` has format **YYYY-MM-DD** and `time` has format **HH:MM**. `appointment_type` must be either **New Patient** or **Follow-up**.
+
+### DELETE /appointments/{appointment_id}
+
+Delete an appointment with the input `appointment_id`.
+
 ## Notes
 
 - Initial list of doctors can be found in [data/initial_data.py](./data/initial_data.py)

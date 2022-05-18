@@ -20,13 +20,13 @@ class TimeFormatValidation:
 
     def _validate_time_format(self) -> None:
         try:
-            minute = datetime.datetime.strptime(self.time, "%H:%M")
+            minute = datetime.datetime.strptime(self.time, "%H:%M").minute
         except ValueError:
             raise ValueError(message="Time must be in format 'HH:MM'")
 
         if minute not in [0, 15, 30, 45]:
             raise Exception(message="Minute must be in 15-minute intervals (0, 15, 30, 45)")
-
+    
     def run(self) -> None:
         self._validate_time_format()
 
@@ -40,8 +40,7 @@ class DateTimeValidation:
     def _validate_datetime_in_future(self) -> None:
         # assume date and time formats have been validated
         date_time = datetime.datetime.strptime(f'{self.date} {self.time}', '%Y-%m-%d %H:%M')
-        now = datetime.now()
-        if date_time < now:
+        if date_time < datetime.datetime.now():
             raise Exception(message="Date time is in the past")
 
     def run(self) -> None:

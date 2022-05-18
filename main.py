@@ -28,7 +28,7 @@ async def get_all_doctors(db: MemoryDB = Depends(get_db)):
     return db.get_all_doctors()
 
 
-@app.get("/doctors/{doctor_id}/appointments/{date}", response_model=List[Appointment])
+@app.get("/doctors/{doctor_id}/appointments/{date}")
 async def get_doctor_appointments(
     doctor_id: str,
     date: str,
@@ -65,15 +65,21 @@ async def create_appointment(
     except:
         raise HTTPException(status_code=404, detail=f"Doctor with id {doctor_id} not found")
 
+    # TODO: clean this part up
+    existing_appointments = db.get_appointments(doctor_id=doctor_id, date=appointment.date, time=appointment.time)
     appointment_validation = AppointmentInputValidation(
         db.get_all_doctors(),
-        db.get_appointments(doctor_id=doctor_id, date=appointment.date, time=appointment.time),
+        existing_appointments,
+        doctor_id,
         appointment
     )
     try:
         appointment_validation.run()
     except:
-        raise HTTPException(status_code=422, detail=f"Wrong input appointment")
+        if len(existing_appointments) < 3:
+            raise HTTPException(status_code=422, detail=f"Wrong input appointment")
+        else:
+            raise HTTPException(status_code=422, detail=f"Appointment overbooked")
     
     new_appointment = db.create_appointment(doctor_id, appointment)
     return new_appointment

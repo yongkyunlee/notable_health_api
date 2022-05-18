@@ -5,7 +5,7 @@ class DoctorExistsValidation:
 
     def _validate_doctor_id_exists(self) -> None:
         for doctor in self.doctors:
-            if doctor.id == self.doctor_id:
+            if doctor['id'] == self.doctor_id:
                 return
         raise Exception(message=f"Doctor with id ${self.doctor_id} does not exist")
 
