@@ -1,5 +1,5 @@
 # To keep everything simple and readable, we will use a simple string
-# for doctor id and appointment id, not a randomly generated uuid.
+# for doctor id, not a randomly generated uuid.
 
 DOCTORS = [
     {

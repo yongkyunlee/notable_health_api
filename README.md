@@ -40,3 +40,9 @@ $ (venv) uvicorn main:app --reload
 ```
 
 You can access the Swagger UI API docs at [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs) after running the server.
+
+## Notes
+
+- Initial list of doctors can be found in [data/initial_data.py](./data/initial_data.py)
+
+- All the data is stored in memory. [db/memory_db.py](./db/memory_db.py) is a class to emulate queries.

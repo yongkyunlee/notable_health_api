@@ -1,3 +1,7 @@
+import uuid
+
+from models.appointment import Appointment
+
 # MemoryDB is a wrapper around the data stored in memory to emulate
 # a database by exposing pre-set queries as methods
 class MemoryDB:
@@ -8,17 +12,27 @@ class MemoryDB:
     def get_all_doctors(self):
         return self.doctors
 
-    def get_appointments(self, doctor_id=None, date=None):
+    def get_appointments(self, doctor_id=None, date=None, time=None):
+        # assume input is valid
         appointments = self.appointments
         if doctor_id is not None:
             appointments = list(filter(lambda x: x.doctor_id == doctor_id, appointments))
         if date is not None:
             appointments = list(filter(lambda x: x.date == date, appointments))
+        if time is not None:
+            appointments = list(filter(lambda x: x.time == time, appointments))
         return appointments
 
-    def create_appointment(self, new_appointment):
+    def create_appointment(self, doctor_id: str, new_appointment: Appointment):
         # assume input is valid
-        pass
+        appointment_id = uuid.uuid4() # assume it is unique since it is uuid4
+        new_appointment = {
+            **new_appointment.to_dict(),
+            'id': appointment_id,
+            'doctor_id': doctor_id
+        }
+        self.appointments.append(new_appointment)
+        return new_appointment
 
     def delete_appointment(self, appointment_id):
         # return the appointment that is deleted

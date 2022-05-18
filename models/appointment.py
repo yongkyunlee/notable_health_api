@@ -9,7 +9,6 @@ class AppointmentType(str, enum.Enum):
 
 
 class Appointment(BaseModel):
-    id: str
     patient_first_name: str
     patient_last_name: str
     appointment_type: AppointmentType
